@@ -1,200 +1,242 @@
 import 'package:flutter/material.dart';
-
-import 'ClassPin.dart';
-
-class Gameguessnumber extends StatefulWidget {
+import 'package:button/ClassPin.dart';
+class LoginPage extends StatefulWidget {
   static const buttonSize = 60.0;
-  late Game _game;
 
-
-  Gameguessnumber({Key? key}) : super(key: key){
-    _game = Game(maxRandom: 100);
-  }
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<Gameguessnumber> createState() => _GameguessnumberState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _GameguessnumberState extends State<Gameguessnumber> {
+class _LoginPageState extends State<LoginPage> {
   String _input = '';
-  String _status = 'ทายเลขตั้งแต่ 1 ถึง 100';
+  var num1 = 0;
+  var num2 = 6;
+  String _input2 = '123456';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('GUESS THE NUMBER'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SizedBox.expand(
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white24,
-            borderRadius: BorderRadius.circular(16.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                offset: Offset(5.0, 5.0),
-                spreadRadius: 2.0,
-                blurRadius: 5.0,
-              )
-            ],
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/images/guess_logo.png', width: 100.0),
-                    SizedBox(width: 8.0),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            gradient: LinearGradient(
+                colors: [
+                  Colors.blue,
+                  Colors.blueAccent,]
+
+            ),),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('GUESS',
-                            style: TextStyle(
-                                fontSize: 36.0, color: Colors.purple)),
-                        Text(
-                          'THE NUMBER',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Color(0xFFFF662A),
-                            //fontWeight: FontWeight.bold,
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.lock,
+                              size: 100.0,
+                              color: Colors.black,
+
+                            ),
+                            SizedBox(height: 20,),
+                            Text(
+                              'LOGIN',
+                              style: TextStyle(
+                                  fontSize: 35.0, color: Colors.black,fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10,),
+
+                            Text(
+                              'Enter PIN to login',
+                              style: TextStyle(
+                                  fontSize: 15.0, color: Colors.black),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(_input, style: TextStyle(fontSize: 40.0)),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 15.0,top: 15.0 ),
-                child: Text('$_status', style: TextStyle(fontSize: 20.0)),
-              ),
-              Container(
-                child: Column(
-                  children: [
-                    Row(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _buildButton(1),
-                        _buildButton(2),
-                        _buildButton(3),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            for (var i = 0; i < num1; i++)
+                              Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    shape: BoxShape.rectangle,
+                                  ),
+                                  alignment: Alignment.center,
+                                  width: 40.0,
+                                  height: 40.0,
+                                ),
+                              ),
+                            for (var i = 0; i < num2 - num1; i++)
+                              Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+
+                                      shape: BoxShape.rectangle,
+                                      border: Border.all(width:3.0,color: Colors.black)
+                                  ),
+                                  alignment: Alignment.center,
+                                  width: 40.0,
+                                  height: 40.0,
+                                ),
+                              ),
+                          ],
+                        ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildButton(4),
-                        _buildButton(5),
-                        _buildButton(6),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildButton(7),
-                        _buildButton(8),
-                        _buildButton(9),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildButton(-2),
-                        _buildButton(0),
-                        _buildButton(-1),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          var input = _input;
-                          var guess = int.tryParse(input);
-                          if(guess == null){
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context){
-                                return AlertDialog(
-                                  title: Text('เกิดข้อผิดพลาด'),
-                                  content: Text('กรุณาเติมตัวเลขลงในช่องว่าง.'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text('OK'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                          var guessResult = widget._game.doGuess(guess!);
-                          if(guessResult > 0){
+                  ),
+                  SizedBox(
+                    height: 50.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for (var i = 1; i <= 3; i++) buildButton(i),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for (var i = 4; i <= 6; i++) buildButton(i),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for (var i = 7; i <= 9; i++) buildButton(i),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: InkWell(
+                          onTap: () {
+                            print("Delete");
                             setState(() {
-                              _status = '$guess : มากเกินไป ';
-                              _input = '';
+                              _input = "";
+                              num1 = 0;
                             });
-                          }else if (guessResult < 0) {
-                            setState(() {
-                              _status = '$guess : น้อยเกินไป ';
-                              _input = '';
-                            });
-                          }else {
-                            setState(() {
-                              _status = '$guess ถูกต้อง 🐶 ( total guesses: ${widget._game.guessCount} )';
-                            });
-                          }
-                        },
-                        child: Text('GUESS'),
+                          },
+                          borderRadius:
+                          BorderRadius.circular(LoginPage.buttonSize / 2),
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: LoginPage.buttonSize,
+                            height: LoginPage.buttonSize,
+                            child: Icon(Icons.close,size: 40,),
+                          ),
+                        ),
                       ),
-                    )
-                  ],
-                ),
+                      buildButton(0),
+                      buildButton(-1),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: TextButton(
+                      child: Text('Forgot Password?'),
+                      style: TextButton.styleFrom(
+                        primary: Colors.black,
+
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-
-  Widget _buildButton(int? num) {
+  Widget buildButton(int num) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: OutlinedButton(
-        onPressed: ()
-        {
+      padding: const EdgeInsets.all(4.0),
+      child: InkWell(
+        onTap: () {
           if (num == -1) {
+            print('Backspace');
+
             setState(() {
-              // '12345'
               var length = _input.length;
               _input = _input.substring(0, length - 1);
+              num1--;
             });
-          }else if(num == -2){
-            setState(() {
-              _input = '';
-            });
-          }else {
-            if(_input.length<3)
+          } else {
+            if (_input.length < 6) {
+              _input = '$_input$num';
               setState(() {
-                _input = _input+'$num';
+                num1 = _input.length;
               });
-            print('You pressed $num');
+            }
+          }
+          if(_input2 == _input) {Navigator.push(context, MaterialPageRoute(builder: (context) => const imagePage()),);
+          }else if(_input2 != _input && _input.length == 6){
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Incorrect PIN'),
+                    content: Text(
+                        'Please try again.'),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('OK'),
+                      )
+                    ],
+                  );
+                });
           }
         },
-        child: (num == -1) ? Icon(Icons.backspace,)  : (num == -2) ? Icon(Icons.close): Text('$num',style: TextStyle(
-          fontSize: 25.0,
-        ),),
+        borderRadius: BorderRadius.circular(LoginPage.buttonSize / 2),
+        child: Container(
+          decoration: (num == -1)
+              ? null
+              : BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.rectangle,
+              border: Border.all(width: 3, color: Colors.black)
+          ),
+          alignment: Alignment.center,
+          width: LoginPage.buttonSize,
+          height: LoginPage.buttonSize,
+          child: (num == -1)
+              ? Icon(Icons.backspace,size: 40,)
+              : Text(
+            '$num',
+            style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),
+          ),
+        ),
       ),
     );
   }

@@ -1,33 +1,40 @@
-import 'dart:math';
+import 'package:flutter/material.dart';
 
-class Game {
-  static const defaultMaxRandom = 100;
-  int? _answer;
-  int _guessCount = 0;
-  static final List<int> guessCountList = [];
+class imagePage extends StatefulWidget {
+  const imagePage({Key? key}) : super(key: key);
 
-  Game({int maxRandom = defaultMaxRandom}) {
-    var r = Random();
-    _answer = r.nextInt(maxRandom) + 1;
-    print('The answer is $_answer');
-  }
+  @override
+  State<imagePage> createState() => _imagePageState();
+}
 
-  int get guessCount {
-    return _guessCount;
-  }
-
-  void addCountList() {
-    guessCountList.add(_guessCount);
-  }
-
-  int doGuess(int num) {
-    _guessCount++;
-    if (num > _answer!) {
-      return 1;
-    } else if (num < _answer!) {
-      return -1;
-    } else {
-      return 0;
-    }
+class _imagePageState extends State<imagePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.blue,
+      appBar: AppBar(
+        title: Text('Main Page'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/images/Doraemon.png',width: 450,),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
